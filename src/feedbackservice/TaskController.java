@@ -2,9 +2,12 @@ package feedbackservice;
 
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -21,14 +24,10 @@ public class TaskController {
         this.repo = repo;
     }
 
+
     @PostConstruct
     private void init() {
         repo.deleteAll();
-
-        List<Feedback> feeds = List.of(
-                new Feedback("1324", 5, "test", "person"),
-                new Feedback("1111", 5, "test", "person"));
-        repo.saveAll(feeds);
     }
 
 
@@ -40,6 +39,15 @@ public class TaskController {
     @GetMapping("/getAllFeedback")
     public Object getAllFeedback() {
         return repo.findAll();
+    }
+
+    @PostMapping("/feedback")
+    public Object saveFeedback(@RequestBody Feedback feedback) {
+        Feedback savedFeedback = repo.save(feedback);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Location", "/feedback/" + savedFeedback.getId());
+        return new ResponseEntity<>(headers,HttpStatus.CREATED);
+
     }
 
     @GetMapping("/deleteDB")

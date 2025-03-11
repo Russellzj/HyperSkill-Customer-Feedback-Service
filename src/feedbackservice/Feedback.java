@@ -1,5 +1,6 @@
 package feedbackservice;
 
+import lombok.Generated;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -8,6 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "feedback")
 public class Feedback {
     @Id
+    @Generated
     private String id;
     private int rating;
     private String feedback; //optional
@@ -15,15 +17,14 @@ public class Feedback {
     private String product;
     private String vendor;
 
-    public Feedback(String id, int rating, String product, String vendor) {
-        this.id = id;
+    public Feedback(int rating, String product, String vendor) {
         this.rating = rating;
         this.product = product;
         this.vendor = vendor;
     }
 
-    public Feedback(String id, int rating, String product, String vendor, String feedback, String customer) {
-        this(id, rating, product, vendor);
+    public Feedback(int rating, String product, String vendor, String feedback, String customer) {
+        this(rating, product, vendor);
         this.feedback = feedback;
         this.customer = customer;
     }
