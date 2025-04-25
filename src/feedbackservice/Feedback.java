@@ -11,9 +11,16 @@ public class Feedback {
     @Getter
     @Id
     private String id;
+    @Getter
     private int rating;
+    @Getter
     private String feedback; //optional
+    @Getter
     private String customer; //optional
+    @Getter
     private String product;
+    @Getter
     private String vendor;
+
+
 }
